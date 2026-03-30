@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, claude/israel-siren-stats-app-Rx5Eu]
+    branches: [main, claude/clip-beat-app-xs6GB]
 
 permissions:
   contents: read
@@ -23,6 +23,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - run: npm run generate-midi
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
