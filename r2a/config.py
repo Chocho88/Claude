@@ -33,7 +33,7 @@ class PathsConfig(BaseModel):
 
 class LLMConfig(BaseModel):
     routing: str = "auto"  # auto | force_local | force_claude
-    claude_model: str = "claude-sonnet-4-6"
+    claude_model: str = "claude-opus-4-8"
     fallback_confidence: float = 0.55
 
 

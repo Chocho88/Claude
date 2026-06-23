@@ -13,7 +13,7 @@ queue_subdir = "queue"          # folder job queue (queued/ running/ done/ faile
 # auto | force_local | force_claude  — privacy: content leaves the device only
 # when force_claude (or web scope) is explicitly selected.
 routing = "auto"
-claude_model = "claude-sonnet-4-6"   # verify against the claude-api skill before use
+claude_model = "claude-opus-4-8"   # default per the claude-api skill
 # Confidence at/below which Auto falls back to Claude for a stage.
 fallback_confidence = 0.55
 
