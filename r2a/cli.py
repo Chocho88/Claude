@@ -95,6 +95,24 @@ def enqueue(
 
 
 @app.command()
+def serve(
+    host: str = typer.Option("127.0.0.1", help="bind address (use 0.0.0.0 for LAN/iPhone)"),
+    port: int = typer.Option(8765),
+    config_path: str = typer.Option(None, "--config"),
+) -> None:
+    """Serve the local web app + PWA, with a background worker draining the queue."""
+    import os
+
+    import uvicorn
+
+    if config_path:
+        os.environ["R2A_CONFIG"] = config_path
+    cfg = _config(config_path)
+    typer.echo(f"serving http://{host}:{port}  (vault={cfg.paths.vault()})")
+    uvicorn.run("r2a.server.app:create_app", factory=True, host=host, port=port)
+
+
+@app.command()
 def worker(config_path: str = typer.Option(None, "--config")) -> None:
     """Drain the queue: claim each job, run it, write artifacts to the vault."""
     cfg = _config(config_path)

@@ -9,6 +9,7 @@ of the store and the only worker draining the queue.
 
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 
@@ -74,7 +75,39 @@ class FolderJobQueue:
         path = self._dir("needs_input") / f"{job.id}.json"
         payload = job.model_dump(mode="json")
         payload["followups"] = [q.model_dump(mode="json") for q in (followups or [])]
-        import json
-
         path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
         self._clear_running(job)
+
+    # --- read side (used by the server for status/results) -----------------
+
+    def read(self, job_id: str) -> tuple[str, dict] | None:
+        """Find a job by id across all states; return (state, raw_payload)."""
+        for state in _STATES:
+            path = self._dir(state) / f"{job_id}.json"
+            if path.exists():
+                return state, json.loads(path.read_text(encoding="utf-8"))
+        return None
+
+    def list_jobs(self) -> list[tuple[str, dict]]:
+        """All jobs across states, newest first by file mtime."""
+        found: list[tuple[float, str, dict]] = []
+        for state in _STATES:
+            for path in self._dir(state).glob("*.json"):
+                payload = json.loads(path.read_text(encoding="utf-8"))
+                found.append((path.stat().st_mtime, state, payload))
+        found.sort(key=lambda t: t[0], reverse=True)
+        return [(state, payload) for _, state, payload in found]
+
+    def submit_answers(self, job_id: str, answers: dict[str, str]) -> Job | None:
+        """Merge follow-up answers into a parked job and re-queue it.
+
+        Returns the re-queued Job, or None if the job isn't awaiting input.
+        """
+        rec = self.read(job_id)
+        if rec is None or rec[0] != "needs_input":
+            return None
+        job = Job.model_validate(rec[1])  # extra "followups" key is ignored
+        job.answers.followups.update(answers)
+        (self._dir("needs_input") / f"{job_id}.json").unlink(missing_ok=True)
+        self.enqueue(job)
+        return job
