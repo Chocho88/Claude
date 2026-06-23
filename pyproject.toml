@@ -46,6 +46,10 @@ markers = [
 ]
 # Run the offline suite by default; opt into live with `-m live`.
 addopts = "-m 'not live'"
+filterwarnings = [
+    # lancedb 0.33 still calls its own deprecated table_names() internally.
+    "ignore:table_names.. is deprecated:DeprecationWarning",
+]
 
 [tool.importlinter]
 root_package = "r2a"
