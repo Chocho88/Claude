@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#ffffff" />
+<title>Research → Artifact · PoC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+/* Manifest V2 — achromatic surfaces; accent only in text & borders; 8px radius; 52px nav. */
+:root{
+  --ink:#121212;--ink-2:#5b5b5b;--muted:#8a8a8a;--line:#e4e4e4;
+  --surface:#fff;--surface-2:#f6f6f6;--accent:#2b6cb0;--warn:#b0532b;--ok:#2f7a4d;
+  --radius:8px;--nav-h:52px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Poppins",system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--surface-2);-webkit-font-smoothing:antialiased;line-height:1.5}
+[data-mono]{font-family:"Space Mono",ui-monospace,monospace}
+.serif{font-family:"DM Serif Display",Georgia,serif;font-weight:400}
+
+.topnav{position:sticky;top:0;z-index:20;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+.wordmark{font-family:"DM Serif Display",serif;font-size:19px}
+.wordmark .arrow{color:var(--accent)}
+.tag{font-family:"Space Mono",monospace;font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+
+.privacy{font-family:"Space Mono",monospace;font-size:12px;margin:0;padding:9px 16px;border-bottom:1px solid var(--line);background:var(--surface)}
+.privacy.on-device{color:var(--ok)}
+
+.tabs{position:sticky;top:var(--nav-h);z-index:15;display:flex;gap:6px;overflow-x:auto;padding:10px 12px;
+  background:var(--surface-2);border-bottom:1px solid var(--line);-webkit-overflow-scrolling:touch}
+.tab{flex:0 0 auto;font-size:12px;font-family:"Space Mono",monospace;padding:7px 12px;border:1px solid var(--line);
+  border-radius:var(--radius);background:var(--surface);color:var(--ink-2);cursor:pointer;white-space:nowrap}
+.tab[aria-selected="true"]{border-color:var(--accent);color:var(--accent)}
+
+main{max-width:760px;margin:0 auto;padding:16px}
+.panel{display:none}
+.panel.active{display:block}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px}
+h1{font-family:"DM Serif Display",serif;font-weight:400;font-size:25px;margin:0 0 6px}
+h2{font-family:"DM Serif Display",serif;font-weight:400;font-size:20px;margin:0 0 12px}
+h3{font-size:15px;margin:0 0 4px}
+.lede{color:var(--ink-2);font-size:14px;margin:0 0 14px}
+.label{font-family:"Space Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--ink-2);margin:0 0 8px}
+.muted{color:var(--muted)}
+.src{font-family:"Space Mono",monospace;font-size:11px;color:var(--muted)}
+
+/* bites */
+.bite{border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px}
+.bite .btype{font-family:"Space Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 8px}
+.bite .btext{margin:8px 0 6px;font-size:14px}
+.bite .bid{font-family:"Space Mono",monospace;font-size:10px;color:var(--muted)}
+
+/* chips (elicitation) */
+.q{margin-bottom:16px}
+.q .qt{font-size:14px;margin:0 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;padding:7px 13px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--ink-2)}
+.chip.on{border-color:var(--accent);color:var(--accent)}
+.chip .n{font-family:"Space Mono",monospace;font-size:10px;color:var(--muted);margin-left:6px}
+.chip.on .n{color:var(--accent)}
+.rationale{font-size:12px;color:var(--muted);margin:8px 0 0}
+
+/* pipeline trace */
+.stage{border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:10px}
+.stage.dim{opacity:.45}
+.stage .shead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.stage .sname{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
+.stage .conf{font-family:"Space Mono",monospace;font-size:11px;color:var(--ink-2)}
+.stage .intent{font-size:13px;margin:8px 0 0}
+.stage .intent b{font-weight:600}
+.stage .llm{font-family:"Space Mono",monospace;font-size:10px;color:var(--muted);margin-top:6px}
+.bar{height:4px;border-radius:999px;background:var(--surface-2);overflow:hidden;margin-top:8px}
+.bar > i{display:block;height:100%;background:var(--accent)}
+.controls{display:flex;gap:8px;margin-bottom:12px}
+.btn{font-family:"Poppins",sans-serif;font-size:13px;padding:8px 14px;border-radius:var(--radius);border:1px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer}
+.btn.ghost{background:var(--surface);color:var(--ink)}
+
+/* ideas (artifact) */
+.idea{border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.idea .iname{font-family:"DM Serif Display",serif;font-size:19px}
+.idea .derives{font-family:"Space Mono",monospace;font-size:11px;color:var(--accent);margin:6px 0}
+.idea p{font-size:14px;margin:6px 0}
+.flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.flag{font-family:"Space Mono",monospace;font-size:10px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--ink-2)}
+.flag.derived{color:var(--warn);border-color:var(--warn)}
+.flag.lens{color:var(--accent);border-color:var(--accent)}
+
+/* reflection rubric */
+.rubric{display:grid;grid-template-columns:1fr auto;gap:6px 14px;font-size:13px}
+.rubric .g{font-family:"Space Mono",monospace;font-size:11px;font-weight:700}
+.rubric .g.pass{color:var(--ok)}
+.rubric .g.fail{color:var(--warn)}
+.score{font-family:"DM Serif Display",serif;font-size:34px}
+.pill{font-family:"Space Mono",monospace;font-size:11px;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.pill.ship{color:var(--ok);border-color:var(--ok)}
+.pill.route{color:var(--warn);border-color:var(--warn)}
+
+/* timeline */
+.tl{position:relative;margin:0;padding:0 0 0 18px;list-style:none}
+.tl:before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:var(--line)}
+.tl li{position:relative;margin-bottom:14px}
+.tl li:before{content:"";position:absolute;left:-18px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.tl li.diverge:before{background:var(--warn);border-color:var(--warn)}
+.tl .ts{font-family:"Space Mono",monospace;font-size:11px;color:var(--ink-2)}
+.tl .tu{font-size:13px;margin:2px 0 0}
+.tl li.diverge .tu{color:var(--warn)}
+
+.callout{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--radius);padding:12px 14px;background:var(--surface);font-size:13px}
+.callout.warn{border-left-color:var(--warn)}
+.toggle{display:flex;gap:8px;margin-bottom:12px}
+.mermaid{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px;overflow:auto}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin:18px 0 30px}
+code{font-family:"Space Mono",monospace;font-size:12px;background:var(--surface-2);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <span class="wordmark">Research<span class="arrow"> → </span>Artifact</span>
+  <span class="tag">PoC · no&nbsp;API</span>
+</nav>
+<p class="privacy on-device">● On device · scope: just the import · LLM: Claude (this chat), no API key</p>
+
+<div class="tabs" id="tabs">
+  <button class="tab" data-tab="source" aria-selected="true">1 · Source &amp; bites</button>
+  <button class="tab" data-tab="elicit" aria-selected="false">2 · Elicitation</button>
+  <button class="tab" data-tab="pipeline" aria-selected="false">3 · Pipeline</button>
+  <button class="tab" data-tab="artifact" aria-selected="false">4 · Artifact</button>
+  <button class="tab" data-tab="trace" aria-selected="false">5 · Intent trace</button>
+</div>
+
+<main>
+  <!-- 1 · SOURCE & BITES -->
+  <section class="panel active" data-panel="source">
+    <div class="card">
+      <h1>Rebuilding Human Connection</h1>
+      <p class="lede">An imported article by Jack Probert. The system extracted atomic <b>knowledge bites</b> — claims, definitions, statistics, examples — and stored them in a per-document namespace so retrieval can be scoped to this one import.</p>
+      <p class="src">source: Rebuilding Human Connection · author: Jack Probert · namespace <code>rebuilding-human-connection-1a2b</code> · 7 bites</p>
+    </div>
+    <div class="card" id="bites"></div>
+  </section>
+
+  <!-- 2 · ELICITATION -->
+  <section class="panel" data-panel="elicit">
+    <div class="card">
+      <h2>Elicitation</h2>
+      <p class="lede">Fixed tappable core, plus one adaptive follow-up generated from the content. Each question changes the work. (Shown with the answers used for this run.)</p>
+      <div id="core"></div>
+      <div class="q">
+        <p class="qt"><b>Adaptive follow-up</b> — which conditions should I anchor the ideas on?</p>
+        <div class="chips" id="anchor"></div>
+        <p class="rationale">Generated from the extracted bites. Anchoring focuses synthesis on the conditions you care about.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · PIPELINE -->
+  <section class="panel" data-panel="pipeline">
+    <div class="card">
+      <h2>Instrumented pipeline</h2>
+      <p class="lede">Linear: Elicitation → Planning → Retrieval → Synthesis → Reflection → ship. Each stage records its own <b>intent_understanding</b> and a confidence, which is what lets the trace pinpoint where intent diverges.</p>
+      <div class="controls">
+        <button class="btn" id="step">Step ▸</button>
+        <button class="btn ghost" id="runall">Run all</button>
+        <button class="btn ghost" id="resetp">Reset</button>
+      </div>
+      <div id="stages"></div>
+    </div>
+  </section>
+
+  <!-- 4 · ARTIFACT -->
+  <section class="panel" data-panel="artifact">
+    <div class="card">
+      <h2>Five product ideas</h2>
+      <p class="lede">Each idea is anchored to a named source condition and <b>cited</b>; everything beyond the article is flagged <span class="flag derived">derived</span>; the ideation lens is applied so nothing ships that feels old-school or extractive.</p>
+      <div id="ideas"></div>
+    </div>
+    <div class="card">
+      <h2>Concept map</h2>
+      <p class="lede">Mermaid — the Obsidian-native default visual. Conditions (left) → ideas (right).</p>
+      <div class="mermaid" id="map"></div>
+    </div>
+  </section>
+
+  <!-- 5 · INTENT TRACE -->
+  <section class="panel" data-panel="trace">
+    <div class="card">
+      <h2>Intent timeline</h2>
+      <p class="lede">A human-readable version of the machine trace. Toggle a deliberately ambiguous request to see the trace <b>localize the miss to the exact stage</b>.</p>
+      <div class="toggle">
+        <button class="tab" id="tHit" aria-selected="true">Aligned run</button>
+        <button class="tab" id="tMiss" aria-selected="false">Intent-miss demo</button>
+      </div>
+      <ol class="tl" id="timeline"></ol>
+      <div class="callout" id="verdict"></div>
+    </div>
+  </section>
+
+  <p class="foot">Generated by a real pipeline run · Claude acted as the model in this chat · no API, no deployment.<br/>Escalation path: local Gemma + LanceDB + iCloud→Obsidian on the Mac.</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+/* ---- the run: faithful to the engine's domain models ---- */
+const CITE = "(Jack Probert, Rebuilding Human Connection)";
+const BITES = [
+  {id:"rhc:health", type:"claim", text:"Meaningful connection is the strongest predictor of health and longevity."},
+  {id:"rhc:paradox", type:"claim", text:"We are 'more social but less connected'."},
+  {id:"rhc:conditions", type:"definition", text:"Five conditions for connection: Understanding; Reciprocity & Responsiveness; Sustained Attention; Emotional Safety; Shared Space/Time/Movement/Object (incl. synchrony)."},
+  {id:"rhc:coupling", type:"statistic", text:"Synchrony — moving, attending, or acting in time together — produces 'neural coupling' between people."},
+  {id:"rhc:erosion", type:"claim", text:"Connection erodes through asynchronous overwhelm, the attention economy, performance/inauthenticity, and the decline of physical 'third spaces'."},
+  {id:"rhc:dunbar", type:"definition", text:"Dunbar's tiers structure our relationships into roughly 5 / 15 / 50 / 150 people."},
+  {id:"rhc:micro", type:"definition", text:"Fredrickson's 'micro-moments of connection' — brief shared positive moments that compound."}
+];
+
+const CORE = [
+  {id:"task", label:"What to make", kind:"single", options:[
+    {v:"ideas", l:"Ideas", n:"product ideas", on:true},
+    {v:"insights", l:"Insights"}, {v:"summarize", l:"Summarize"},
+    {v:"analyze", l:"Analyze"}, {v:"compare", l:"Compare"}]},
+  {id:"scope", label:"How far beyond the source", kind:"single", options:[
+    {v:"import", l:"Just the import", n:"stays on device", on:true},
+    {v:"import_model", l:"+ model"}, {v:"import_web", l:"+ web"}]},
+  {id:"artifacts", label:"Artifacts", kind:"multi", options:[
+    {v:"hub", l:"Hub note", on:true}, {v:"mermaid", l:"Diagram", on:true},
+    {v:"deck", l:"Deck"}, {v:"html", l:"Prototype"}]},
+  {id:"count", label:"Count", kind:"single", options:[{v:"5", l:"5", on:true}]}
+];
+const ANCHORS = [
+  {l:"Shared space & synchrony", on:true},{l:"Micro-moments", on:true},
+  {l:"Dunbar tiers", on:true},{l:"Emotional safety", on:true},
+  {l:"Understanding"},{l:"Reciprocity"}];
+
+const STAGES = [
+  {name:"Elicitation", conf:0.88, llm:"claude (this chat)",
+   intent:"Restated the ask as: <b>five product ideas grounded in this article's conditions for connection</b>, scoped to the import; proposed one adaptive follow-up (which conditions to anchor on)."},
+  {name:"Planning", conf:0.86, llm:"claude (this chat)",
+   intent:"Classified task = <b>ideas</b> (ideation), scope = just-import. Strategy: derive one concept per anchored condition; answer shape = <b>Name / Derives from (cited) / What it is / Why it helps</b>; flag everything as derived. Not underspecified — no further questions."},
+  {name:"Retrieval", conf:0.91, llm:"claude (this chat)",
+   intent:"Queried the vector store scoped to <code>rebuilding-human-connection</code>; pulled the five-conditions bite, synchrony/neural-coupling, Dunbar tiers, and micro-moments. No model or web knowledge admitted (scope = import)."},
+  {name:"Synthesis", conf:0.87, llm:"claude (this chat)",
+   intent:"Produced 5 ideas in the planned shape, each citing its source condition and flagged derived; applied the ideation lens (AI-native, contextual trust, live, collaborative, anti-exploitation) — re-tuning the throttle-style idea into an AI-native one."},
+  {name:"Reflection", conf:0.90, llm:"claude (this chat)",
+   intent:"Graded the draft against the rubric. Grounding and citations hold; ideas are derived and flagged; lens applied. SCORE 90 → SHIP."}
+];
+
+const IDEAS = [
+  {name:"Tempo", derives:"Shared Space/Time + synchrony / neural coupling "+CITE,
+   what:"AI finds a short window when you and one chosen person are both genuinely free, then opens a synchronized do-it-together space — cook, stretch, listen — with a shared rhythm.",
+   why:"Manufactures co-presence and 'neural coupling' across distance instead of another async ping.",
+   lens:["AI-native","Live","Collaboration"]},
+  {name:"Circles", derives:"Dunbar's tiers + Emotional Safety "+CITE,
+   what:"A private relationship-capacity tool: AI nudges attention back toward your inner five when they're drifting, and gently caps your active circle. No followers, no public counts.",
+   why:"Protects sustained attention and emotional safety where it matters most.",
+   lens:["Contextual trust","Anti-exploitation"]},
+  {name:"Micro", derives:"Fredrickson's micro-moments + Reciprocity "+CITE,
+   what:"AI surfaces the right moment to reach a specific person — timing intelligence, not a feed — proposing a 30-second shared action.",
+   why:"Turns 'micro-moments of connection' into a habit without an inbox or a streak.",
+   lens:["AI-native","Contextual trust","Re-tuned Letterbox"]},
+  {name:"Third Place", derives:"Decline of physical 'third spaces' "+CITE,
+   what:"AI matches 3–5 already-trusted people into a recurring real-world or synchronous-virtual 'third place' around a shared activity.",
+   why:"Rebuilds the third spaces whose loss the article names — collaboration over performance.",
+   lens:["Live","Collaboration","Contextual trust"]},
+  {name:"Attune", derives:"Sustained Attention + Understanding "+CITE,
+   what:"During a 1:1 call, a private on-device layer reflects a shared 'we're both here' signal and suggests a pause when attention frays — it never scores anyone.",
+   why:"Operationalizes sustained attention and feeling understood, with no data leaving the call.",
+   lens:["Anti-exploitation","AI-native","Collaboration"]}
+];
+
+const RUBRIC = [["TASK_FIT","PASS"],["SCOPE_FIT","PASS"],["EVIDENCE","PASS"],
+  ["CITATIONS","PASS"],["CONSTRAINTS","PASS"],["CLARITY","PASS"]];
+
+const TL_HIT = {
+  rows:[
+    {s:"Elicitation", tu:"five product ideas from the article", ok:true},
+    {s:"Planning", tu:"task = ideas · derive one concept per condition", ok:true},
+    {s:"Retrieval", tu:"scoped bites: conditions, synchrony, Dunbar, micro-moments", ok:true},
+    {s:"Synthesis", tu:"5 cited, derived-flagged ideas in the planned shape", ok:true},
+    {s:"Reflection", tu:"rubric all PASS · SCORE 90", ok:true}
+  ],
+  verdict:{cls:"", html:"<b>SHIP.</b> ROUTING_TARGET = SHIP · ISSUE_TYPE = NONE. Every stage's intent agrees with the user's — no divergence."}
+};
+const TL_MISS = {
+  rows:[
+    {s:"Elicitation", tu:"“make something useful from this” (ambiguous)", ok:true},
+    {s:"Planning", tu:"classified task = SUMMARIZE — but the user wanted ideas", ok:false},
+    {s:"Retrieval", tu:"pulled bites to summarize, not to ideate", ok:true},
+    {s:"Synthesis", tu:"produced a summary, not product ideas", ok:true},
+    {s:"Reflection", tu:"TASK_FIT = FAIL → routes the blame to PLANNING", ok:true}
+  ],
+  verdict:{cls:"warn", html:"<b>Intent miss localized to PLANNING.</b> ROUTING_TARGET = PLANNING · ISSUE_TYPE = INTENT_OR_STRATEGY. Planning's own <code>intent_understanding</code> ('summarize the article') is where intent diverged from the user's goal — so the loop escalates there, not to Synthesis."}
+};
+
+/* ---- render ---- */
+const el = (h)=>{const t=document.createElement("template");t.innerHTML=h.trim();return t.content.firstChild};
+
+document.getElementById("bites").append(...BITES.map(b=>el(
+  `<div class="bite"><span class="btype">${b.type}</span>
+   <p class="btext">${b.text}</p><span class="bid">${b.id}</span></div>`)));
+
+const core = document.getElementById("core");
+CORE.forEach(q=>{
+  const wrap = el(`<div class="q"><p class="qt"><span class="label">${q.label}</span></p><div class="chips"></div></div>`);
+  q.options.forEach(o=>wrap.querySelector(".chips").append(el(
+    `<span class="chip ${o.on?"on":""}">${o.l}${o.n?`<span class="n">${o.n}</span>`:""}</span>`)));
+  core.append(wrap);
+});
+document.getElementById("anchor").append(...ANCHORS.map(a=>el(
+  `<span class="chip ${a.on?"on":""}">${a.l}</span>`)));
+
+const stagesHost = document.getElementById("stages");
+function renderStages(n){
+  stagesHost.innerHTML="";
+  STAGES.forEach((s,i)=>{
+    const dim = i>=n ? "dim":"";
+    const node = el(`<div class="stage ${dim}">
+      <div class="shead"><span class="sname">${s.name}</span><span class="conf">conf ${s.conf.toFixed(2)}</span></div>
+      <p class="intent">${i<n?s.intent:"…"}</p>
+      ${i<n?`<div class="bar"><i style="width:${Math.round(s.conf*100)}%"></i></div><div class="llm">llm_used: ${s.llm}</div>`:""}
+    </div>`);
+    stagesHost.append(node);
+  });
+}
+let shown=0; renderStages(0);
+document.getElementById("step").onclick=()=>{ if(shown<STAGES.length){shown++;renderStages(shown);} };
+document.getElementById("runall").onclick=()=>{ shown=STAGES.length;renderStages(shown); };
+document.getElementById("resetp").onclick=()=>{ shown=0;renderStages(0); };
+
+document.getElementById("ideas").append(...IDEAS.map(it=>el(
+  `<div class="idea">
+     <div class="iname">${it.name}</div>
+     <div class="derives">Derives from ${it.derives}</div>
+     <p><b>What it is.</b> ${it.what}</p>
+     <p><b>Why it helps.</b> ${it.why}</p>
+     <div class="flags"><span class="flag derived">derived</span>${it.lens.map(x=>`<span class="flag lens">${x}</span>`).join("")}</div>
+   </div>`)));
+
+/* reflection block appended to artifact panel */
+document.querySelector('[data-panel="artifact"]').insertBefore(el(
+  `<div class="card">
+    <h2>Reflection</h2>
+    <div style="display:flex;gap:18px;align-items:center;margin-bottom:12px">
+      <span class="score">90</span>
+      <span class="pill ship">SHIP</span>
+      <span class="pill">ISSUE_TYPE · NONE</span>
+    </div>
+    <div class="rubric">${RUBRIC.map(([k,v])=>
+      `<span>${k}</span><span class="g ${v.toLowerCase()}">${v}</span>`).join("")}</div>
+    <p class="rationale">Notes: ideas are derived and flagged; grounding holds; lens applied — <b>Micro</b> is the AI-native re-tune of the throttle/slow-messaging pattern (timing intelligence + contextual trust + a live moment), per the fine-tuning lesson.</p>
+   </div>`), document.querySelector('[data-panel="artifact"] .card:nth-child(2)'));
+
+/* timeline */
+function renderTL(data){
+  const tl=document.getElementById("timeline"); tl.innerHTML="";
+  data.rows.forEach(r=>tl.append(el(
+    `<li class="${r.ok?"":"diverge"}"><span class="ts">${r.s}${r.ok?"":" · ✕ diverged"}</span><p class="tu">${r.tu}</p></li>`)));
+  const v=document.getElementById("verdict"); v.className="callout "+data.verdict.cls; v.innerHTML=data.verdict.html;
+}
+renderTL(TL_HIT);
+document.getElementById("tHit").onclick=()=>{sel("tHit");renderTL(TL_HIT);};
+document.getElementById("tMiss").onclick=()=>{sel("tMiss");renderTL(TL_MISS);};
+function sel(id){document.getElementById("tHit").setAttribute("aria-selected",id==="tHit");
+  document.getElementById("tMiss").setAttribute("aria-selected",id==="tMiss");}
+
+/* tabs */
+document.querySelectorAll(".tab[data-tab]").forEach(t=>t.onclick=()=>{
+  document.querySelectorAll(".tab[data-tab]").forEach(x=>x.setAttribute("aria-selected",x===t));
+  const name=t.dataset.tab;
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.dataset.panel===name));
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* mermaid */
+const MAP=`graph LR
+  C1["Shared space + synchrony"]-->T["Tempo"]
+  C2["Dunbar tiers"]-->Ci["Circles"]
+  C3["Micro-moments"]-->Mi["Micro"]
+  C4["Third spaces"]-->Tp["Third Place"]
+  C5["Sustained attention"]-->At["Attune"]`;
+document.getElementById("map").textContent=MAP;
+try{ mermaid.initialize({startOnLoad:false,theme:"neutral"});
+  mermaid.run({nodes:[document.getElementById("map")]}); }catch(e){}
+</script>
+</body>
+</html>
