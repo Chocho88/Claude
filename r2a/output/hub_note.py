@@ -56,7 +56,24 @@ def _cite_links(item: SynthItem, ctx: StageContext) -> str:
     return tail
 
 
-def render_hub_note(ctx: StageContext, tracer: Tracer) -> str:
+def _artifact_links(links: dict[str, str]) -> list[str]:
+    """Render an Artifacts section linking the deck (wikilink) and HTML (path)."""
+    if not links:
+        return []
+    out = ["## Artifacts", ""]
+    if "deck" in links:
+        # Strip .md for the Obsidian wikilink.
+        name = links["deck"].rsplit(".md", 1)[0]
+        out.append(f"- Slide deck: [[{name}]]")
+    if "html" in links:
+        out.append(f"- Interactive prototype: [{links['html']}]({links['html']})")
+    out.append("")
+    return out
+
+
+def render_hub_note(
+    ctx: StageContext, tracer: Tracer, links: dict[str, str] | None = None
+) -> str:
     draft = ctx.draft
     assert draft is not None
     out: list[str] = [_frontmatter(ctx), ""]
@@ -82,6 +99,8 @@ def render_hub_note(ctx: StageContext, tracer: Tracer) -> str:
         out += ["## Concept map", "", mermaid.fence(draft.mermaid), ""]
     elif draft.items:
         out += ["## Concept map", "", mermaid.concept_map(draft), ""]
+
+    out += _artifact_links(links or {})
 
     # Human-readable intent-failure localization.
     out += [tracer.intent_timeline_callout(), ""]
