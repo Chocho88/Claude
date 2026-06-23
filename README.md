@@ -18,12 +18,28 @@ components (Gemma, iCloud sync, the PWA client) swappable in behind adapter inte
 
 | Milestone | Scope | Testable here |
 |-----------|-------|---------------|
-| M0 | Skeleton, domain models, adapter ABCs, stub providers, pipeline + loop, tracer | ✅ offline |
-| M1 | Real ingest (pdf/docx/md/txt), sentence-transformers embeddings, LanceDB | ✅ |
-| M2 | Claude provider (forced tool-use JSON), real end-to-end run | ✅ (needs `ANTHROPIC_API_KEY`) |
-| M3 | Output artifacts: hub note, mermaid, HTML prototype, Obsidian-Slides deck | ✅ |
-| M4 | Folder job queue + `r2a worker/ingest/run` CLI | ✅ |
+| M0 | Skeleton, domain models, adapter ABCs, stub providers, pipeline + loop, tracer | ✅ done |
+| M1 | Real ingest (pdf/docx/md/txt), sentence-transformers embeddings, LanceDB | ✅ done |
+| M2 | Claude provider (forced tool-use JSON), real end-to-end run | ✅ done (live needs `ANTHROPIC_API_KEY`) |
+| M3 | Output artifacts: hub note, mermaid, HTML prototype, Obsidian-Slides deck | ✅ done |
+| M4 | Folder job queue + `r2a ingest/enqueue/worker/run` CLI | ✅ done |
 | M5+ | Local Gemma (Ollama/MLX), iCloud sync, PWA client, sqlite-vec | on a Mac |
+
+## Usage
+
+```bash
+python -m pip install -e ".[slice,dev]"   # full slice (torch/lancedb/anthropic)
+
+# One-shot: ingest a document, run the pipeline, write artifacts to the vault
+r2a run paper.pdf --task ideas --artifacts hub,mermaid,deck,html --config config.toml
+
+# Or the queue flow (what the iPhone client drives): drop a job, drain it on the Mac
+r2a enqueue paper.pdf --task ideas --config config.toml
+r2a worker --config config.toml
+```
+
+Without `ANTHROPIC_API_KEY` or local-model deps the engine still runs end-to-end on
+the offline stubs (deterministic), so the queue/output plumbing is fully testable.
 
 ## Architecture (one-paragraph)
 
