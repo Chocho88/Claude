@@ -39,7 +39,9 @@ def _cite_links(item: SynthItem, ctx: StageContext) -> str:
         b = by_id.get(cid)
         if b is None:
             parts.append(f"[[{cid}]]")
-        elif b.location:
+        elif b.location and "://" not in b.location and "#" not in b.location:
+            # A real heading/page anchor — safe to deep-link. URLs and pre-anchored
+            # locations would produce broken wikilinks, so fall back to the title.
             parts.append(f"[[{b.source_title}#{b.location}|{cid}]]")
         else:
             parts.append(f"[[{b.source_title}|{cid}]]")

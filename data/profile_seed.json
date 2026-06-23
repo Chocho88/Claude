@@ -1,0 +1,248 @@
+{
+  "_about": "Seed knowledge bites for the operator's profile vector DB (M6 bootstrap). Topic namespaces are web-sourced and cited (location = URL); the operator-profile namespace is from the user's own context reference. Re-embed + load with: python scripts/seed_profile.py",
+  "bites": [
+    {
+      "id": "yf:bio",
+      "type": "definition",
+      "namespace": "young-franco",
+      "source_title": "Young Franco — artist profile",
+      "author": "Wikipedia",
+      "location": "https://en.wikipedia.org/wiki/Young_Franco",
+      "text": "Young Franco (Joseph Da Rin de Barbera, b. 1994) is an Australian DJ and record producer from Brisbane, based in Sydney."
+    },
+    {
+      "id": "yf:sound",
+      "type": "claim",
+      "namespace": "young-franco",
+      "source_title": "Young Franco — UnnamedProject",
+      "author": "UnnamedProject",
+      "location": "https://www.unnamedproject.com/young-franco/",
+      "text": "His sound intertwines hip hop, electronic, funk and nu-disco into smooth, lively, dancefloor-oriented cuts."
+    },
+    {
+      "id": "yf:futurefunk",
+      "type": "claim",
+      "namespace": "young-franco",
+      "source_title": "Young Franco — Vice",
+      "author": "Vice",
+      "location": "https://www.vice.com/en/article/introduce-young-franco-to-your-summer-playlist/",
+      "text": "He is recognized as a rising Australian future-funk producer, blending funk, soul, house and disco with a millennial edge."
+    },
+    {
+      "id": "yf:stats",
+      "type": "statistic",
+      "namespace": "young-franco",
+      "source_title": "Young Franco — Seismic Talent",
+      "author": "Seismic Talent Agency",
+      "location": "https://www.seismictalent.com/artists/young-franco/",
+      "text": "He holds four ARIA-Gold-certified singles, an Emmy nomination, over 200 million streams, and more than a million monthly Spotify listeners."
+    },
+    {
+      "id": "yf:ofleisure",
+      "type": "example",
+      "namespace": "young-franco",
+      "source_title": "Young Franco — Rolling Stone AU",
+      "author": "Rolling Stone Australia",
+      "location": "https://au.rollingstone.com/music/music-features/young-franco-fort-lane-live-auckland-interview-48614/",
+      "text": "His January 2025 debut LP 'Of Leisure' blends disco, italo-disco, rap, punk and dance music."
+    },
+    {
+      "id": "aow:know",
+      "type": "definition",
+      "namespace": "art-of-war",
+      "source_title": "The Art of War, applied to business",
+      "author": "Startups.com",
+      "location": "https://www.startups.com/articles/what-a-2400-year-old-book-taught-me-about-business",
+      "text": "'Know your enemy and know yourself': deeply understanding both competitors and your own business is what lets you make decisions that minimize risk and maximize opportunity."
+    },
+    {
+      "id": "aow:indirect",
+      "type": "claim",
+      "namespace": "art-of-war",
+      "source_title": "Use The Art of War in Your Business",
+      "author": "Asymmetric",
+      "location": "https://asymmetric.pro/use-the-art-of-war-in-your-business/",
+      "text": "As a startup, avoid attacking competitors at their strongest point; strike where they least expect, after analyzing the competition before launch."
+    },
+    {
+      "id": "aow:position",
+      "type": "claim",
+      "namespace": "art-of-war",
+      "source_title": "Sun Tzu for Small Business Leaders",
+      "author": "Asymmetric",
+      "location": "https://asymmetric.pro/navigating-the-business-battlefield-strategies-from-sun-tzu-for-small-business-leaders/",
+      "text": "Strategic positioning means finding niche, underserved segments suited to your strengths rather than competing head-on."
+    },
+    {
+      "id": "aow:adapt",
+      "type": "claim",
+      "namespace": "art-of-war",
+      "source_title": "Sun Tzu in Modern Strategic Planning",
+      "author": "Asymmetric",
+      "location": "https://asymmetric.pro/strategic-planning-how-to-incorporate-sun-tzus-principles-into-modern-business-strategy/",
+      "text": "Sustainable competitive advantage comes from rapid adaptation: firms that thrive run frequent, cheap experiments on offerings, models and processes."
+    },
+    {
+      "id": "aow:heaven",
+      "type": "definition",
+      "namespace": "art-of-war",
+      "source_title": "Sun Tzu in Modern Strategic Planning",
+      "author": "Asymmetric",
+      "location": "https://asymmetric.pro/strategic-planning-how-to-incorporate-sun-tzus-principles-into-modern-business-strategy/",
+      "text": "'Heaven' is the broader market environment — economic, technological, regulatory and cultural conditions — which strategy must continuously monitor and adapt to."
+    },
+    {
+      "id": "aow:alliances",
+      "type": "claim",
+      "namespace": "art-of-war",
+      "source_title": "Business Principles from Sun Tzu",
+      "author": "Tony Kharioki",
+      "location": "https://medium.com/@kharioki/business-principles-from-sun-tzu-the-art-of-war-39f9db3241ee",
+      "text": "To 'shape' or change the rules of the game, a startup builds alliances and useful networks."
+    },
+    {
+      "id": "foa:def",
+      "type": "definition",
+      "namespace": "file-over-app",
+      "source_title": "File over app",
+      "author": "Steph Ango",
+      "location": "https://stephango.com/file-over-app",
+      "text": "File over app: if you want to create digital artifacts that last, they must be files you can control, in formats that are easy to retrieve and read."
+    },
+    {
+      "id": "foa:ephemeral",
+      "type": "claim",
+      "namespace": "file-over-app",
+      "source_title": "File over app",
+      "author": "Steph Ango",
+      "location": "https://stephango.com/file-over-app",
+      "text": "All software is ephemeral; tool makers should accept this and give people ownership over their data."
+    },
+    {
+      "id": "foa:quote",
+      "type": "claim",
+      "namespace": "file-over-app",
+      "source_title": "File over app",
+      "author": "Steph Ango",
+      "location": "https://stephango.com/file-over-app",
+      "text": "In the fullness of time, the files you create are more important than the tools you use to create them."
+    },
+    {
+      "id": "foa:formats",
+      "type": "claim",
+      "namespace": "file-over-app",
+      "source_title": "File over app",
+      "author": "Steph Ango",
+      "location": "https://stephango.com/file-over-app",
+      "text": "Open, accessible formats like Markdown, HTML and plain text have long-term value and will likely outlive proprietary software."
+    },
+    {
+      "id": "foa:portable",
+      "type": "example",
+      "namespace": "file-over-app",
+      "source_title": "File over app",
+      "author": "Steph Ango",
+      "location": "https://stephango.com/file-over-app",
+      "text": "If notes live in files, you can move, read, script, back up and hand them to tools without asking an app for permission."
+    },
+    {
+      "id": "cht:org",
+      "type": "definition",
+      "namespace": "humane-tech",
+      "source_title": "Center for Humane Technology",
+      "author": "Wikipedia",
+      "location": "https://en.wikipedia.org/wiki/Center_for_Humane_Technology",
+      "text": "The Center for Humane Technology (founded 2018 by Tristan Harris, Aza Raskin and Randima Fernando) works to mitigate the harms of attention-maximizing business models."
+    },
+    {
+      "id": "cht:tws",
+      "type": "claim",
+      "namespace": "humane-tech",
+      "source_title": "Time Well Spent",
+      "author": "Wikipedia",
+      "location": "https://en.wikipedia.org/wiki/Center_for_Humane_Technology",
+      "text": "Time Well Spent (Tristan Harris, 2013) argued that sites should avoid design methods that exploit deficiencies in user attention spans."
+    },
+    {
+      "id": "cht:persuasive",
+      "type": "definition",
+      "namespace": "humane-tech",
+      "source_title": "Center for Humane Technology",
+      "author": "Wikipedia",
+      "location": "https://en.wikipedia.org/wiki/Center_for_Humane_Technology",
+      "text": "Persuasive-design techniques exploit psychology for prolonged engagement: intermittent variable rewards, fear of missing out, desire for social approval, reciprocity pressure and interrupting notifications."
+    },
+    {
+      "id": "cht:goal",
+      "type": "claim",
+      "namespace": "humane-tech",
+      "source_title": "Center for Humane Technology — Impact",
+      "author": "Center for Humane Technology",
+      "location": "https://www.humanetech.com/impact-and-story",
+      "text": "Humane design asks that a product have an end goal other than maximizing usage to sell advertising, respecting users' time."
+    },
+    {
+      "id": "cht:attention",
+      "type": "claim",
+      "namespace": "humane-tech",
+      "source_title": "Rebelling against the attention economy",
+      "author": "Al Jazeera",
+      "location": "https://www.aljazeera.com/economy/2019/7/25/rebelling-against-attention-economy-humane-tech-movement-expands",
+      "text": "The humane-tech movement rebels against the attention economy and helped inspire Digital Well-Being tools such as Apple Screen Time and Google Digital Wellbeing."
+    },
+    {
+      "id": "op:throughline",
+      "type": "definition",
+      "namespace": "operator-profile",
+      "source_title": "Operator context reference",
+      "author": "(operator)",
+      "location": "Who you are building for",
+      "text": "The operator is a researcher-builder whose throughline is research-into-artifact: investigate a domain thoroughly, then build something tangible from it."
+    },
+    {
+      "id": "op:trace",
+      "type": "claim",
+      "namespace": "operator-profile",
+      "source_title": "Operator context reference",
+      "author": "(operator)",
+      "location": "How he works",
+      "text": "He values systems that are inspectable and traceable over black boxes, and evidence over assertion; he is skeptical of unanchored claims."
+    },
+    {
+      "id": "op:manifest",
+      "type": "definition",
+      "namespace": "operator-profile",
+      "source_title": "Operator context reference",
+      "author": "(operator)",
+      "location": "Manifest V2",
+      "text": "Design system 'Manifest V2': DM Serif Display for titles, Poppins for body, Space Mono for data; achromatic surfaces with accent color used only in text and borders; 8px radius; 52px sticky nav."
+    },
+    {
+      "id": "op:lens",
+      "type": "definition",
+      "namespace": "operator-profile",
+      "source_title": "Operator context reference",
+      "author": "(operator)",
+      "location": "The ideation lens",
+      "text": "Ideation lens: prefer ideas that are AI-native, built on contextual trust, that empower live shared experiences, favor collaboration over performance, and are anti-exploitation."
+    },
+    {
+      "id": "op:sanity",
+      "type": "claim",
+      "namespace": "operator-profile",
+      "source_title": "Operator context reference",
+      "author": "(operator)",
+      "location": "The ideation lens",
+      "text": "Idea sanity check: would this still be good for the user if it earned the company nothing from engagement?"
+    },
+    {
+      "id": "op:taste",
+      "type": "example",
+      "namespace": "operator-profile",
+      "source_title": "Operator context reference",
+      "author": "(operator)",
+      "location": "Interests",
+      "text": "Aesthetic north star in music is Young Franco (nu-disco / future-funk / house); strategic frame is Sun Tzu's Art of War applied to business and startups."
+    }
+  ]
+}
