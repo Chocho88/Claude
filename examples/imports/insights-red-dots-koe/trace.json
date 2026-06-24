@@ -1,0 +1,59 @@
+[
+  {
+    "stage": "elicitation",
+    "intent_understanding": "Surface insights that read the two imports together; scope = the two documents.",
+    "inputs_used": {},
+    "outputs": {},
+    "confidence": 0.84,
+    "llm_used": "claude (this chat)",
+    "attempt": 0,
+    "ts": "2026-06-24T07:11:31.779057Z"
+  },
+  {
+    "stage": "planning",
+    "intent_understanding": "task = insights; strategy = find the shared structure (energy/attention, goals-as-lens, the attrition valley); flag cross-document synthesis as derived.",
+    "inputs_used": {},
+    "outputs": {
+      "task": "insights",
+      "scope": "import"
+    },
+    "confidence": 0.83,
+    "llm_used": "claude (this chat)",
+    "attempt": 0,
+    "ts": "2026-06-24T07:11:31.779064Z"
+  },
+  {
+    "stage": "retrieval",
+    "intent_understanding": "Pull the energy/agenda/identity bites from both namespaces; admit no outside knowledge.",
+    "inputs_used": {},
+    "outputs": {},
+    "confidence": 0.88,
+    "llm_used": "claude (this chat)",
+    "attempt": 0,
+    "ts": "2026-06-24T07:11:31.779068Z"
+  },
+  {
+    "stage": "synthesis",
+    "intent_understanding": "Five grounded insights; each cites its bites; cross-document links flagged derived.",
+    "inputs_used": {},
+    "outputs": {},
+    "confidence": 0.86,
+    "llm_used": "claude (this chat)",
+    "attempt": 0,
+    "ts": "2026-06-24T07:11:31.779070Z"
+  },
+  {
+    "stage": "reflection",
+    "intent_understanding": "Grounding and citations hold; derived links honest \u2192 ship.",
+    "inputs_used": {},
+    "outputs": {
+      "routing_target": "SHIP",
+      "score": 90,
+      "issue_type": "NONE"
+    },
+    "confidence": 0.9,
+    "llm_used": "claude (this chat)",
+    "attempt": 0,
+    "ts": "2026-06-24T07:11:31.779074Z"
+  }
+]

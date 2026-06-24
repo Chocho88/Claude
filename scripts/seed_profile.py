@@ -23,8 +23,8 @@ from r2a.factory import default_embedder, default_store
 SEED = Path(__file__).resolve().parent.parent / "data" / "profile_seed.json"
 
 
-def load_bites() -> list[KnowledgeBite]:
-    raw = json.loads(SEED.read_text())["bites"]
+def load_bites(path: Path) -> list[KnowledgeBite]:
+    raw = json.loads(path.read_text())["bites"]
     return [
         KnowledgeBite(
             id=b["id"],
@@ -40,8 +40,9 @@ def load_bites() -> list[KnowledgeBite]:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Seed the profile vector DB.")
-    ap.add_argument("--reset", action="store_true", help="drop seed namespaces first")
+    ap = argparse.ArgumentParser(description="Seed the vector DB from a bite file.")
+    ap.add_argument("--file", default=str(SEED), help="seed JSON (default: profile_seed)")
+    ap.add_argument("--reset", action="store_true", help="drop these namespaces first")
     ap.add_argument("--config", default=None, help="path to a TOML config")
     args = ap.parse_args()
 
@@ -49,7 +50,7 @@ def main() -> None:
     embedder = default_embedder(config)
     store = default_store(config)
 
-    bites = load_bites()
+    bites = load_bites(Path(args.file))
     # Embed each bite's text and attach the vector (the real ingest path).
     vecs = embedder.embed([b.text for b in bites])
     for b, v in zip(bites, vecs):
