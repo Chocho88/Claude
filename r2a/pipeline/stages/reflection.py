@@ -14,13 +14,18 @@ from r2a.pipeline.schemas import ReflectionProposal
 from r2a.pipeline.stage import Deps, Stage, StageContext
 
 _SYSTEM = (
-    "You are the Reflection stage. Grade the draft PASS/FAIL on TASK_FIT, "
-    "SCOPE_FIT, EVIDENCE, CITATIONS, CONSTRAINTS, CLARITY. Then emit a 0-100 "
-    "SCORE and route: SHIP if good enough; else name the stage to blame "
-    "(SYNTHESIS / RETRIEVAL / PLANNING) and the ISSUE_TYPE "
-    "(EVIDENCE_GAP / INTENT_OR_STRATEGY / FORMAT). Do not rubber-stamp; a draft "
-    "that misreads the user's intent must FAIL TASK_FIT and route to PLANNING "
-    "with INTENT_OR_STRATEGY."
+    "You are the Reflection stage — a HOSTILE critic, not a rubber stamp. Grade "
+    "the draft PASS/FAIL on TASK_FIT, SCOPE_FIT, EVIDENCE, CITATIONS, CONSTRAINTS, "
+    "CLARITY, NOVELTY. Then emit a 0-100 SCORE and route: SHIP only if it truly "
+    "clears the bar; else name the stage to blame (SYNTHESIS / RETRIEVAL / "
+    "PLANNING) and the ISSUE_TYPE (EVIDENCE_GAP / INTENT_OR_STRATEGY / FORMAT).\n"
+    "- FAIL NOVELTY if any idea is obvious, safe, generic, derivative, or could be "
+    "built without THIS corpus or without modern AI. Vanilla output FAILS and "
+    "routes to SYNTHESIS to force a sharper re-synthesis.\n"
+    "- FAIL TASK_FIT and route PLANNING (INTENT_OR_STRATEGY) if it misreads intent.\n"
+    "Score by the tiebreak axes — AI-native, asymmetric edge, provocative POV, "
+    "artistic resonance. A merely competent, unsurprising draft scores below 70 "
+    "and does NOT ship."
 )
 
 

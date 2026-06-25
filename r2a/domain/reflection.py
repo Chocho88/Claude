@@ -17,6 +17,7 @@ class Criterion(str, Enum):
     CITATIONS = "CITATIONS"
     CONSTRAINTS = "CONSTRAINTS"
     CLARITY = "CLARITY"
+    NOVELTY = "NOVELTY"  # vanilla/obvious output fails this and is re-synthesized
 
 
 Grade = Literal["PASS", "FAIL"]
