@@ -8,6 +8,7 @@ imported lazily and falls back to its stub double when the optional dependency
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
 from r2a.adapters.embedding.base import Embedder
 from r2a.adapters.llm.base import LLMProvider
@@ -61,6 +62,16 @@ def default_store(config: Config) -> VectorStore:
         return InMemoryStore()
 
 
+def load_taste(config: Config) -> str:
+    """Load the operator's ON/OFF taste profile if present (edge I/O)."""
+    for p in (Path("data/taste_profile.md"), config.paths.root() / "taste_profile.md"):
+        try:
+            return p.read_text()
+        except OSError:
+            continue
+    return ""
+
+
 def build_deps(
     config: Config,
     *,
@@ -69,6 +80,7 @@ def build_deps(
     store: VectorStore | None = None,
     tracer: Tracer | None = None,
     web: WebSearchProvider | None = None,
+    taste: str | None = None,
 ) -> Deps:
     return Deps(
         llm=llm or default_llm(config),
@@ -77,4 +89,5 @@ def build_deps(
         tracer=tracer or Tracer(),
         config=config,
         web=web or DisabledWebSearch(),
+        taste=load_taste(config) if taste is None else taste,
     )

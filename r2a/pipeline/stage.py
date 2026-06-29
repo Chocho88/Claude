@@ -58,6 +58,7 @@ class Deps:
     tracer: "Tracer"
     config: Config
     web: WebSearchProvider | None = None
+    taste: str = ""  # operator's ON/OFF resonance profile, loaded at the edge
 
 
 class Stage(ABC):

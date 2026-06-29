@@ -10,7 +10,7 @@ import threading
 from pathlib import Path
 
 from r2a.config import Config
-from r2a.factory import default_embedder, default_llm, default_store
+from r2a.factory import default_embedder, default_llm, default_store, load_taste
 from r2a.ingest import ingest_document
 from r2a.pipeline.orchestrator import PipelineResult, run_pipeline
 from r2a.pipeline.stage import Deps, StageContext
@@ -53,6 +53,7 @@ def _handle_one(
     deps = Deps(
         llm=llm, embedder=embedder, store=store,
         tracer=Tracer(), config=config, web=DisabledWebSearch(),
+        taste=load_taste(config),
     )
     try:
         result = process_job(job, deps, config)

@@ -38,7 +38,14 @@ _SYSTEM = (
     "(impossible before modern AI), asymmetric (hard to copy), provocative (a real "
     "POV), artistically resonant (taste, not just utility), and anti-exploitation "
     "(would it still be good for the user if it earned the company nothing from "
-    "engagement?)."
+    "engagement?).\n"
+    "CHOOSE THE REGISTER FIRST. Do NOT assume the deliverable is a startup "
+    "product. The content may want an art intervention, a strategic reframe / "
+    "thesis, a personal practice, or a tool — pick the register it actually wants "
+    "and say which. Optimize for TRUE and resonant to THIS operator over clever or "
+    "disruptive: an ingenious but soulless or off-register idea is a miss. If an "
+    "operator taste profile is provided, weight it heavily — match what's ON, "
+    "avoid the failure axis it names."
 )
 
 
@@ -56,8 +63,15 @@ class SynthesisStage(Stage):
     def run(self, ctx: StageContext, deps: Deps) -> TraceRecord:
         plan = ctx.plan
         assert plan is not None, "Synthesis requires a plan"
+        taste = (
+            f"Operator taste profile (weight heavily):\n{deps.taste}\n\n"
+            if deps.taste
+            else ""
+        )
         user = (
+            f"{taste}"
             f"Task: {plan.task.value}\nAnswer shape: {plan.answer_shape}\n"
+            f"Original request: {ctx.answers.raw_request!r}\n"
             f"Constraints: {ctx.answers.constraints.model_dump()}\n"
             f"Retrieved bites:\n{_bite_digest(ctx)}"
         )
