@@ -1,0 +1,131 @@
+/* Manifest V2 — achromatic surfaces, semantic accent in text & borders only.
+   Type: DM Serif Display (titles) · Poppins (body) · Space Mono (data/labels). */
+
+:root {
+  --ink: #121212;
+  --ink-2: #5b5b5b;
+  --muted: #8a8a8a;
+  --line: #e4e4e4;
+  --surface: #ffffff;
+  --surface-2: #f6f6f6;
+  --accent: #2b6cb0;     /* semantic: selection, links */
+  --warn: #b0532b;       /* semantic: content-leaves-device */
+  --ok: #2f7a4d;         /* semantic: on-device / done */
+  --radius: 8px;
+  --nav-h: 52px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Poppins", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--surface-2);
+  -webkit-font-smoothing: antialiased;
+}
+
+[data-mono], .field-label, .privacy, .llm-state, .path-input, input[type="number"] {
+  font-family: "Space Mono", ui-monospace, monospace;
+}
+
+/* sticky 52px top nav */
+.topnav {
+  position: sticky; top: 0; z-index: 10;
+  height: var(--nav-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.wordmark { font-family: "DM Serif Display", serif; font-size: 20px; letter-spacing: .2px; }
+.wordmark .arrow { color: var(--accent); }
+.llm-state { font-size: 12px; color: var(--muted); }
+
+main {
+  max-width: 720px; margin: 0 auto; padding: 18px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+h1 { font-family: "DM Serif Display", serif; font-weight: 400; font-size: 26px; margin: 0 0 18px; }
+h2 { font-family: "DM Serif Display", serif; font-weight: 400; font-size: 20px; margin: 0 0 12px; }
+
+.field-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-2); margin: 14px 0 6px; }
+.field-label:first-of-type { margin-top: 0; }
+.muted { color: var(--muted); }
+
+textarea, input {
+  width: 100%;
+  font-family: inherit; font-size: 14px; color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  resize: vertical;
+}
+textarea:focus, input:focus { outline: none; border-color: var(--accent); }
+.path-input { margin-top: 8px; font-size: 13px; }
+
+/* tappable chips — accent lives in border + text, never a fill */
+.qgroup { margin-top: 14px; }
+.qtext { font-size: 13px; color: var(--ink-2); margin: 0 0 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-family: "Poppins", sans-serif; font-size: 13px;
+  padding: 7px 13px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer; user-select: none;
+  display: inline-flex; align-items: baseline; gap: 6px;
+}
+.chip .chip-note { font-size: 10px; color: var(--muted); }
+.chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.chip[aria-pressed="true"] .chip-note { color: var(--accent); }
+
+.constraints { display: flex; gap: 12px; align-items: flex-end; margin-top: 4px; }
+.constraints .grow { flex: 1; }
+.constraints input[type="number"] { width: 90px; }
+
+.privacy { font-size: 12px; margin: 16px 0; padding: 9px 12px; border-radius: var(--radius); border: 1px solid var(--line); }
+.privacy.on-device { color: var(--ok); border-color: var(--ok); }
+.privacy.leaves { color: var(--warn); border-color: var(--warn); }
+
+button.primary {
+  width: 100%;
+  font-family: "Poppins", sans-serif; font-weight: 600; font-size: 15px;
+  color: var(--surface); background: var(--ink);
+  border: 1px solid var(--ink); border-radius: var(--radius);
+  padding: 12px; cursor: pointer; margin-top: 6px;
+}
+button.primary:disabled { opacity: .5; cursor: default; }
+
+.error { color: var(--warn); font-size: 13px; margin: 10px 0 0; }
+
+/* runs */
+.jobs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.job { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
+.job-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; }
+.job-req { font-size: 14px; }
+.job-meta { font-family: "Space Mono", monospace; font-size: 11px; color: var(--muted); margin-top: 3px; }
+.badge {
+  font-family: "Space Mono", monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .5px;
+  padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap;
+}
+.badge.done { color: var(--ok); border-color: var(--ok); }
+.badge.failed { color: var(--warn); border-color: var(--warn); }
+.badge.needs_input { color: var(--accent); border-color: var(--accent); }
+.badge.queued, .badge.running { color: var(--ink-2); }
+
+.job-detail { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 13px; }
+.job-detail a { color: var(--accent); text-decoration: none; word-break: break-all; }
+.job-detail ul { margin: 6px 0 0; padding-left: 18px; }
+.followup { margin-top: 12px; }
+.followup .qtext { color: var(--ink); font-weight: 500; }

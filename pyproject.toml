@@ -1,0 +1,71 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "research-to-artifact"
+version = "0.1.0"
+description = "Local-first agentic app that turns imported content into grounded, traceable Obsidian artifacts."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "pydantic>=2.6",
+    "pydantic-settings>=2.2",
+    "typer>=0.12",
+    "jinja2>=3.1",
+]
+
+[project.optional-dependencies]
+# Real document parsing (M1). Light enough to often keep installed.
+ingest = ["pypdf>=4.2", "python-docx>=1.1", "markdown-it-py>=3.0"]
+# Local cross-platform embeddings (M1). Pulls torch — install the CPU wheel.
+embeddings = ["sentence-transformers>=2.7"]
+# File-based vector store (M1).
+vector = ["lancedb>=0.9", "pyarrow>=16.0"]
+# Claude API path (M2).
+claude = ["anthropic>=0.39"]
+# Local web app + PWA host (M4).
+server = ["fastapi>=0.110", "uvicorn>=0.29"]
+# Everything needed to run the full slice in this container.
+slice = [
+    "pypdf>=4.2", "python-docx>=1.1", "markdown-it-py>=3.0",
+    "sentence-transformers>=2.7", "lancedb>=0.9", "pyarrow>=16.0",
+    "anthropic>=0.39", "fastapi>=0.110", "uvicorn>=0.29",
+]
+dev = ["pytest>=8.0", "import-linter>=2.0", "httpx>=0.27"]
+
+[project.scripts]
+r2a = "r2a.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["r2a"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "live: tests that hit the Claude API or download real models (need network + keys); deselected by default",
+]
+# Run the offline suite by default; opt into live with `-m live`.
+addopts = "-m 'not live'"
+filterwarnings = [
+    # lancedb 0.33 still calls its own deprecated table_names() internally.
+    "ignore:table_names.. is deprecated:DeprecationWarning",
+]
+
+[tool.importlinter]
+root_package = "r2a"
+
+# The whole swap-later premise dies if domain/pipeline import a concrete adapter.
+[[tool.importlinter.contracts]]
+name = "domain and pipeline depend only on adapter ABCs, never concretes"
+type = "forbidden"
+source_modules = ["r2a.domain", "r2a.pipeline"]
+forbidden_modules = [
+    "r2a.adapters.llm.claude",
+    "r2a.adapters.llm.stub",
+    "r2a.adapters.embedding.sbert",
+    "r2a.adapters.embedding.stub",
+    "r2a.adapters.vectorstore.lancedb_store",
+    "r2a.adapters.vectorstore.memory",
+]

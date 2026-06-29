@@ -1,0 +1,28 @@
+# Copy to `config.toml` (gitignored via *.local convention — keep secrets out of git).
+# Every value here has a code default; this file just documents the knobs.
+
+[paths]
+# Root of the synced workspace. On a Mac this is the iCloud folder beside your
+# Obsidian vault; in this container it's any local directory.
+workspace = "./scratch/workspace"
+vault_subdir = "vault"          # Obsidian vault lives here
+store_subdir = "vector_store"   # LanceDB files (Mac is the single writer)
+queue_subdir = "queue"          # folder job queue (queued/ running/ done/ failed/)
+
+[llm]
+# auto | force_local | force_claude  — privacy: content leaves the device only
+# when force_claude (or web scope) is explicitly selected.
+routing = "auto"
+claude_model = "claude-opus-4-8"   # default per the claude-api skill
+# Confidence at/below which Auto falls back to Claude for a stage.
+fallback_confidence = 0.55
+
+[embedding]
+model_id = "BAAI/bge-small-en-v1.5"
+
+[retrieval]
+top_k = 8
+
+[loop]
+max_synth_per_phase = 3   # 1 initial synthesis + up to 2 re-synth from same bites
+max_escalations = 1       # one escalation to Retrieval or Planning, then ship best

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Research → Artifact</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <nav class="topnav">
+    <span class="wordmark">Research<span class="arrow"> → </span>Artifact</span>
+    <span id="llmState" class="llm-state" data-mono>·</span>
+  </nav>
+
+  <main>
+    <section class="card" id="compose">
+      <h1>Turn an import into a grounded artifact</h1>
+
+      <label class="field-label" data-mono for="request">Your request</label>
+      <textarea id="request" rows="2" placeholder="e.g. Five product ideas from this article"></textarea>
+
+      <label class="field-label" data-mono for="content">Paste content <span class="muted">(or a file path on the Mac)</span></label>
+      <textarea id="content" rows="6" placeholder="Paste the article, paper, or note here…"></textarea>
+      <input id="sourcePath" class="path-input" data-mono placeholder="…or /path/to/file.pdf on the Mac" />
+
+      <div id="coreQuestions"><!-- tappable core, rendered from /api/meta --></div>
+
+      <div class="constraints">
+        <div>
+          <label class="field-label" data-mono for="count">Count</label>
+          <input id="count" type="number" min="1" data-mono placeholder="—" />
+        </div>
+        <div class="grow">
+          <label class="field-label" data-mono for="audience">Audience</label>
+          <input id="audience" placeholder="—" />
+        </div>
+      </div>
+
+      <div id="privacy" class="privacy" data-mono></div>
+
+      <button id="submit" class="primary">Run pipeline</button>
+      <p id="composeError" class="error" hidden></p>
+    </section>
+
+    <section class="card" id="jobsCard">
+      <h2>Runs</h2>
+      <ul id="jobs" class="jobs"></ul>
+      <p id="jobsEmpty" class="muted">No runs yet.</p>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

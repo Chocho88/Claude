@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="72" fill="#ffffff"/>
+  <rect x="8" y="8" width="496" height="496" rx="64" fill="none" stroke="#e4e4e4" stroke-width="8"/>
+  <text x="86" y="312" font-family="Georgia, 'DM Serif Display', serif" font-size="190" fill="#121212">R</text>
+  <text x="250" y="312" font-family="Georgia, serif" font-size="150" fill="#2b6cb0">→</text>
+  <text x="372" y="312" font-family="Georgia, 'DM Serif Display', serif" font-size="190" fill="#121212">A</text>
+</svg>
