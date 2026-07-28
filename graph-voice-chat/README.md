@@ -6,6 +6,7 @@ Everything needed to have GPT-5.6 build a prototype of a voice-first assistant w
 
 | File | What it is |
 |---|---|
+| `app/` | **The working prototype** — `cd app && npm install && npm run dev`. Simulated demo mode works with no API key; add `OPENAI_API_KEY` for live Realtime voice. |
 | `DESIGN.md` | Full product + UX + architecture design: concept, graph model, tool contract, UI layout, voice integration, conversation rules. |
 | `PROMPT.md` | **The prompt.** Paste into GPT-5.6 (attaching the three materials files) and it builds the complete runnable prototype. |
 | `materials/tool-definitions.json` | The `update_graph` function schema the voice model uses to mutate the canvas. |
