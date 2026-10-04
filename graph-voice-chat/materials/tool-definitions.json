@@ -1,0 +1,112 @@
+{
+  "comment": "Tool registered in the OpenAI Realtime session. The voice model calls update_graph once per turn (batched ops). The client applies ops in order with staggered animations.",
+  "tools": [
+    {
+      "type": "function",
+      "name": "update_graph",
+      "description": "Mutate the conversation graph shown to the user. Call this in EVERY turn that changes what should be on screen. Batch all operations for the turn into one call. Never mention node ids or this tool when speaking.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Optional headline above the canvas, e.g. 'Restaurants in NYC — friends only'"
+          },
+          "operations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "op": {
+                  "type": "string",
+                  "enum": [
+                    "add_nodes",
+                    "add_edges",
+                    "apply_filter",
+                    "clear_filter",
+                    "remove_nodes",
+                    "highlight",
+                    "focus"
+                  ]
+                },
+                "nodes": {
+                  "type": "array",
+                  "description": "For add_nodes",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "stable slug, e.g. 'rest-via-carota'" },
+                      "type": {
+                        "type": "string",
+                        "enum": ["topic", "place.restaurant", "place.hotel", "person.friend", "source.publication", "attribute"]
+                      },
+                      "label": { "type": "string" },
+                      "detail": { "type": "string", "description": "one-line blurb for the popover" },
+                      "meta": {
+                        "type": "object",
+                        "description": "freeform: neighborhood, cuisine, price, quote…",
+                        "additionalProperties": true
+                      }
+                    },
+                    "required": ["id", "type", "label"]
+                  }
+                },
+                "edges": {
+                  "type": "array",
+                  "description": "For add_edges",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "source": { "type": "string" },
+                      "target": { "type": "string" },
+                      "type": {
+                        "type": "string",
+                        "enum": ["recommends", "located_in", "refines", "attribute_of"]
+                      },
+                      "label": { "type": "string", "description": "optional, e.g. 'loved it'" }
+                    },
+                    "required": ["source", "target", "type"]
+                  }
+                },
+                "filter": {
+                  "type": "object",
+                  "description": "For apply_filter. Nodes failing the predicate become ghosted (not deleted). Filters stack until clear_filter.",
+                  "properties": {
+                    "description": { "type": "string", "description": "human-readable, e.g. 'friend recommendations only'" },
+                    "keep_node_types": {
+                      "type": "array",
+                      "items": { "type": "string" },
+                      "description": "node types the filter applies to; others keep current state"
+                    },
+                    "require_edge": {
+                      "type": "object",
+                      "description": "keep a node only if it has such an edge",
+                      "properties": {
+                        "type": { "type": "string" },
+                        "from_node_type": { "type": "string" },
+                        "from_node_ids": { "type": "array", "items": { "type": "string" } }
+                      }
+                    },
+                    "require_meta": {
+                      "type": "object",
+                      "description": "keep a node only if meta matches, e.g. {\"cuisine\": \"italian\"} or {\"price_max\": 3}",
+                      "additionalProperties": true
+                    }
+                  },
+                  "required": ["description"]
+                },
+                "node_ids": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "description": "For remove_nodes / highlight / focus"
+                }
+              },
+              "required": ["op"]
+            }
+          }
+        },
+        "required": ["operations"]
+      }
+    }
+  ]
+}
